@@ -6,6 +6,7 @@ int
 main(void)
 {
   printf(1, "Unix V6 was released in the year %d\n", getyear());
+  sleep(100);
   printf(1, "hi im parsa\n");
   exit();
 }

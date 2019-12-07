@@ -5,6 +5,18 @@
 int
 main(void)
 {
-  printf(1, "year : %d\n", getChildren(3));
+  printf(1, "parent id = %d\n", getpid());
+  int id = getpid();
+  fork();
+  if(getpid() != id){
+    printf(1, "child id = %d\n", getpid());
+    for(int i = 0; i < 100; i++);
+  }
+  else{
+    for(int i = 0; i < 100; i++);
+    int child = getChildren(getpid());
+    printf(1, "getchildren = %d\n", child);
+  }
+  wait();
   exit();
 }

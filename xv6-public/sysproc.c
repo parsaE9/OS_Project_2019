@@ -101,12 +101,16 @@ return 1975;
 int
 sys_getppid(void)
 {
-    return myproc()->parent->pid;
+    return getppid(myproc());
 }
 
-//return the process id of it's SYS_getChildren
+//return the process id of it's children
 int
 sys_getChildren(void)
 {
-  return 0;
+  int pid;
+
+  if(argint(0, &pid) < 0)
+    return -1;
+  return getChildren(pid);
 }
