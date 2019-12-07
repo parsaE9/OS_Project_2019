@@ -89,3 +89,24 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+// return the year of which the Unix version 6 was released
+int
+sys_getyear(void)
+{
+return 1975;
+}
+
+// returns the parent process id
+int
+sys_getppid(void)
+{
+    return myproc()->parent->pid;
+}
+
+//return the process id of it's SYS_getChildren
+int
+sys_getChildren(void)
+{
+  return 0;
+}
