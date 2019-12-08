@@ -5,12 +5,21 @@
 int
 main(int argc, char *argv[])
 {
-  int a = atoi(argv[1]);
-  //sleep(10);
-  printf(1, "argument is %d\nsyscall number is %d\n", a, getCount(a));
-  //int num[100] = {1,2,3,4};
-  //num[4] = 67;
-  //printf(1, "%d", num[4]);
+  int number = atoi(argv[1]);
+  int id = getpid();
+  fork();
+  if(getpid() == id){
+    sleep(2);
+    sleep(10);
+    sleep(3);
+    sleep(4);
+    printf(1, "parent : systemcall with number %d was called %d times!\n", number, getCount(number));
+    wait();
+  }
+  else{
+    sleep(3);
+    printf(1, "child : systemcall with number %d was called %d times!\n", number, getCount(number));
+  }
   wait();
   exit();
 }

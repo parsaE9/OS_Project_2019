@@ -143,8 +143,9 @@ syscall(void)
   struct proc *curproc = myproc();
 
   num = curproc->tf->eax;
-  if(num == 25 && syscalls[num]){
+  if(num > 0 && num < 26 && syscalls[num]){
     curproc->sysnum[curproc->cntr] = num;
+    curproc->cntr++;
   }
   if(num > 0 && num < NELEM(syscalls) && syscalls[num]) {
     curproc->tf->eax = syscalls[num]();

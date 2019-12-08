@@ -576,9 +576,14 @@ getppid(struct proc* p)
 
 //return number of times a systemcall was called
 int
-getCount(int pid, struct proc* p)
+getCount(int number, struct proc* p)
 {
+  int counter = 0;
+  for(int i = 0; i < p->cntr; i++){
+    if(number == p->sysnum[i]){
+      counter++;
+    }
+  }
 
-  int num = p->sysnum[0];
-  return num;
+  return counter;
 }
