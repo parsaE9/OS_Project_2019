@@ -216,6 +216,10 @@ fork(void)
 
   np->state = RUNNABLE;
 
+  //******************************************************************************************changes
+  np->cntr = 0;
+  //******************************************************************************************changes
+
   release(&ptable.lock);
 
   return pid;
@@ -568,4 +572,13 @@ int
 getppid(struct proc* p)
 {
   return p->parent->pid;
+}
+
+//return number of times a systemcall was called
+int
+getCount(int pid, struct proc* p)
+{
+
+  int num = p->sysnum[0];
+  return num;
 }

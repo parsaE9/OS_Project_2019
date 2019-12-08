@@ -114,3 +114,14 @@ sys_getChildren(void)
     return -1;
   return getChildren(pid);
 }
+
+//return number of times a systemcall was called
+int
+sys_getCount(void)
+{
+  int n;
+
+  if(argint(0, &n) < 0)
+    return -1;
+  return getCount(n, myproc());
+}

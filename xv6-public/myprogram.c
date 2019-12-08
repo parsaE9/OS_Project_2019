@@ -3,20 +3,10 @@
 #include "user.h"
 
 int
-main(void)
+main(int argc, char *argv[])
 {
-  printf(1, "parent id = %d\n", getpid());
-  int id = getpid();
-  fork();
-  if(getpid() != id){
-    printf(1, "child id = %d\n", getpid());
-    for(int i = 0; i < 100; i++);
-  }
-  else{
-    for(int i = 0; i < 100; i++);
-    int child = getChildren(getpid());
-    printf(1, "getchildren = %d\n", child);
-  }
+  int a = atoi(argv[1]);
+  printf(1, "%d\nargument is %d", argc, a);
   wait();
   exit();
 }
