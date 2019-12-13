@@ -27,7 +27,8 @@ int getyear(void);
 int getppid(void);
 int getChildren(int);
 int getCount(int);
-int ppt(void); 
+int ppt(void);
+int changePolicy(int);
 
 // ulib.c
 int stat(const char*, struct stat*);

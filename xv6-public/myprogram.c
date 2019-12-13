@@ -39,11 +39,8 @@ main(int argc, char *argv[])
   }else if(input == 2){
     create_process();
   }
-  getppid();
-  printf(1,"**");
 
-
-
+  printf(1,"**result = %d\n", changePolicy(1));
 
   wait();
   exit();

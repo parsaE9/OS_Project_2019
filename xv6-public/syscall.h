@@ -25,3 +25,4 @@
 #define SYS_getChildren 24
 #define SYS_getCount 25
 #define SYS_ppt 26
+#define SYS_changePolicy 27

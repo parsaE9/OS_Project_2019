@@ -132,3 +132,13 @@ sys_ppt(void)
 {
   return ppt();
 }
+
+int
+sys_changePolicy(void)
+{
+  int n;
+
+  if(argint(0, &n) < 0)
+    return -1;
+  return changePolicy(n);
+}

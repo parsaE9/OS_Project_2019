@@ -89,8 +89,9 @@ allocproc(void)
 found:
   p->state = EMBRYO;
   p->pid = nextpid++;
+  //**********************************************************************************changes
   p->priority = 5;
-
+    //********************************************************************************changes
   release(&ptable.lock);
 
   // Allocate kernel stack.
@@ -339,20 +340,19 @@ scheduler(void)
     // Loop over process table looking for process to run.
     acquire(&ptable.lock);
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
-      if(policy == 1){
-        goto policy_1;
-      }
-      else if(policy == 0){
+
+      if(policy != 2){
         if(p->state != RUNNABLE)
           continue;
       }
-      else if(policy == 2){
-        
+      else{
+
       }
+
+      if(p != 0){
       // Switch to chosen process.  It is the process's job
       // to release ptable.lock and then reacquire it
       // before jumping back to us.
-      if(p != 0){
         c->proc = p;
         switchuvm(p);
         p->state = RUNNING;
@@ -360,24 +360,11 @@ scheduler(void)
         swtch(&(c->scheduler), p->context);
         switchkvm();
 
-
         // Process is done running for now.
         // It should have changed its p->state before coming back.
 
         c->proc = 0;
       }
-      continue;
-      policy_1:
-        if(p->state != RUNNABLE)
-          continue;
-        c->proc = p;
-        for(int i = 0; i < QUANTUM; i++){
-          switchuvm(p);
-          p->state = RUNNING;
-          swtch(&(c->scheduler), p->context);
-          switchkvm();
-        }
-        c->proc = 0;
     }
     release(&ptable.lock);
 
@@ -630,4 +617,13 @@ int ppt(void)
   }
   release(&ptable.lock);
   return 0;
+}
+
+//change scheduling policy
+int changePolicy(int n){
+  if(n != policy){
+    policy = n;
+    return 1;
+  }
+  return -1;
 }
