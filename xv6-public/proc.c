@@ -15,6 +15,7 @@ struct {
 static struct proc *initproc;
 
 int nextpid = 1;
+int policy = 0;
 extern void forkret(void);
 extern void trapret(void);
 
@@ -88,6 +89,7 @@ allocproc(void)
 found:
   p->state = EMBRYO;
   p->pid = nextpid++;
+  p->priority = 5;
 
   release(&ptable.lock);
 
@@ -337,22 +339,45 @@ scheduler(void)
     // Loop over process table looking for process to run.
     acquire(&ptable.lock);
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
-      if(p->state != RUNNABLE)
-        continue;
-
+      if(policy == 1){
+        goto policy_1;
+      }
+      else if(policy == 0){
+        if(p->state != RUNNABLE)
+          continue;
+      }
+      else if(policy == 2){
+        
+      }
       // Switch to chosen process.  It is the process's job
       // to release ptable.lock and then reacquire it
       // before jumping back to us.
-      c->proc = p;
-      switchuvm(p);
-      p->state = RUNNING;
+      if(p != 0){
+        c->proc = p;
+        switchuvm(p);
+        p->state = RUNNING;
 
-      swtch(&(c->scheduler), p->context);
-      switchkvm();
+        swtch(&(c->scheduler), p->context);
+        switchkvm();
 
-      // Process is done running for now.
-      // It should have changed its p->state before coming back.
-      c->proc = 0;
+
+        // Process is done running for now.
+        // It should have changed its p->state before coming back.
+
+        c->proc = 0;
+      }
+      continue;
+      policy_1:
+        if(p->state != RUNNABLE)
+          continue;
+        c->proc = p;
+        for(int i = 0; i < QUANTUM; i++){
+          switchuvm(p);
+          p->state = RUNNING;
+          swtch(&(c->scheduler), p->context);
+          switchkvm();
+        }
+        c->proc = 0;
     }
     release(&ptable.lock);
 
@@ -586,4 +611,23 @@ getCount(int number, struct proc* p)
   }
 
   return counter;
+}
+
+//printf process table
+int ppt(void)
+{
+  struct proc *p;
+  sti();
+  acquire(&ptable.lock);
+  cprintf("name \t pid \t state \t \t priority \n");
+  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+    if(p->state == SLEEPING)
+      cprintf("%s \t\t %d \t\t SLEEPING \t \n", p->name, p->pid);
+    else if(p->state == RUNNING)
+      cprintf("%s \t\t %d \t\t RUNNING \t \n", p->name, p->pid);
+    else if(p->state == RUNNABLE)
+      cprintf("%s \t\t %d \t\t RUNNABLE \t \n", p->name, p->pid);
+  }
+  release(&ptable.lock);
+  return 0;
 }

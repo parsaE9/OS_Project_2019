@@ -125,3 +125,10 @@ sys_getCount(void)
     return -1;
   return getCount(n, myproc());
 }
+
+//print process TABLE
+int
+sys_ppt(void)
+{
+  return ppt();
+}

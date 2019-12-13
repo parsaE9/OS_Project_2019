@@ -124,6 +124,7 @@ int             getyear(void);
 int             getppid(struct proc*);
 int             getChildren(int);
 int             getCount(int, struct proc*);
+int             ppt(void);
 
 // swtch.S
 void            swtch(struct context**, struct context*);

@@ -24,3 +24,4 @@
 #define SYS_getppid 23
 #define SYS_getChildren 24
 #define SYS_getCount 25
+#define SYS_ppt 26

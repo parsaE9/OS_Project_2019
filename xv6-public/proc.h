@@ -51,6 +51,8 @@ struct proc {
   char name[16];               // Process name (debugging)
   int cntr;                    // systemcall counter
   int sysnum[1000];            //systemcall number saver
+  float priority;              //process priority
+  float calculatedPriority;    //process calculated priority
 };
 
 // Process memory is laid out contiguously, low addresses first:
